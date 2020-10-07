@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+# Copyright (c) 2019, PhysK
+# All rights reserved.
+
+DISABLE_MEGA=${DISABLE_MEGA:-false}
+UFSTMP=$(cat /tmp/ufstmp.path)
+MEGANAME=$(head -n 1 /config/rclone-docker.conf | sed 's/[][]//g')
+
+if [ "${DISABLE_MEGA}" == "true" ]; then
+    touch /etc/services.d/mount-mega/down
+    echo "-> Disabled Mega Mount <-"
+else
+    echo "${UFSTMP}:/mnt/$(MEGANAME)=NC" > /tmp/ufs.path
+fi
